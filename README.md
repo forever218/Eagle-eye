@@ -119,6 +119,13 @@
 | 检测模块       | 基于文心大模型实现牲畜的分类、标号、状态检测、行为检测等 |
 
 
+## 贡献者
+
+<a href="https://github.com/forever218">
+  <img src="https://avatars.githubusercontent.com/forever218" width="60px;" alt=""/>
+  <br />
+  <sub><b>forever218</b></sub>
+</a>
 
 
 
