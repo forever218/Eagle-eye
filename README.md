@@ -119,13 +119,34 @@
 | 检测模块       | 基于文心大模型实现牲畜的分类、标号、状态检测、行为检测等 |
 
 
-## 贡献者
 
-<a href="https://github.com/forever218">
-  <img src="https://avatars.githubusercontent.com/forever218" width="60px;" alt=""/>
-  <br />
-  <sub><b>forever218</b></sub>
-</a>
+## 🙌 贡献者 Contributors
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/forever218">
+        <img src="https://avatars.githubusercontent.com/forever218" width="80px;" alt="forever218"/>
+        <br /><sub><b>forever218</b></sub>
+      </a>
+      <br />💻 🧠 💡
+    </td>
+    <td align="center">
+      <a href="https://github.com/Albertsaam">
+        <img src="https://avatars.githubusercontent.com/Albertsaam" width="80px;" alt="Albertsaam"/>
+        <br /><sub><b>Albertsaam</b></sub>
+      </a>
+      <br />🔍 🛠️ 🎨
+    </td>
+       <td align="center">
+      <a href="https://github.com/Setiawan271">
+        <img src="https://avatars.githubusercontent.com/Setiawan271" width="80px;" alt="Albertsaam"/>
+        <br /><sub><b>Setiawan271</b></sub>
+      </a>
+      <br />🔍 🔗 📷
+    </td>
+  </tr>
+</table>
 
 
 
