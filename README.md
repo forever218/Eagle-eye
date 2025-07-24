@@ -167,7 +167,9 @@ OK
 ### 数据集准备
 数据集来源有很多，可以选择到[roboflow](https://universe.roboflow.com/)上下载对应的格式（例如COCO）数据集，本例使用的数据集为https://universe.roboflow.com/part-iv-project/cow-dataset
 下载之后上传至[AI STUDIO](https://aistudio.baidu.com)的文件夹`/home/aistudio/work/PaddleDetection/dataset/coco`下并解压（如果选择COCO数据集的话）
+
 <img width="476" height="562" alt="image" src="https://github.com/user-attachments/assets/185f5f62-9921-4912-a6d8-f5ce3e8ce595" />
+
 当然，也可以选择将数据集先挂载在[AI STUDIO](https://aistudio.baidu.com)的`我的数据集`里，然后在项目中进行引用。
 
 
