@@ -290,6 +290,18 @@ python tools/infer.py -c configs/ppyoloe/ppyoloe_plus_crn_s_80e_coco.yml -o use_
   </tr>
 </table>
 
+## 🔗 参考链接
+[🧃 superpoint提取器](https://github.com/magicleap/SuperPointPretrainedNetwork)  
+[🔍 特征匹配器](https://github.com/cvg/LightGlue)  
+[🤺 PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection)  
+[📚 roboflow数据集](https://universe.roboflow.com/)  
+[📕 DeTone D, Malisiewicz T, Rabinovich A. SuperPoint: Self-Supervised Interest Point Detection and Description [EB/OL]. arXiv preprint, 2017-12-20 [2025-07-24].](https://arxiv.org/abs/1712.07629)   
+[📕 Lindenberger P, Sarlin P-E, Pollefeys M. LightGlue: Local Feature Matching at Light Speed [EB/OL]. arXiv preprint, 2023-06-23 [2025-07-24].](https://arxiv.org/abs/2306.13643)   
+[📕 He K, Sun J, Tang X. Single image haze removal using dark channel prior [C]//2009 IEEE Conference on Computer Vision and Pattern Recognition. Miami, FL, USA: IEEE, 2009.](https://ieeexplore.ieee.org/document/5206515)   
+[📕 He K, Sun J, Tang X. Guided Image Filtering [J]. IEEE Transactions on Pattern Analysis and Machine Intelligence, 2013, 35(6): 1397-1409.](https://ieeexplore.ieee.org/document/6319316)   
+[📕 Ma J, Tang L, Fan F, et al. SwinFusion: Cross-domain Long-range Learning for General Image Fusion via Swin Transformer [J]. IEEE/CAA Journal of Automatica Sinica, 2022, 9(7): 1200-1217.](https://ieeexplore.ieee.org/document/9812535)   
+
+
 
 
 
