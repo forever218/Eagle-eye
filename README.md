@@ -101,6 +101,146 @@
 
 <img width="215" height="90" alt="image" src="https://github.com/user-attachments/assets/2cb3bf9d-564f-4942-b50d-0259a452fd21" />
 
+## 🔛 快速开始（目标检测）
+
+> 本示例是基于PaddleDetection3.1.0版本实现的ppyoloe网络，在coco数据集进行了训练
+
+### 环境
+- PaddleDetection3.1.0
+- OS 64位操作系统
+- Python 3(3.5.1+/3.6/3.7/3.8/3.9)，64位版本
+- pip/pip3(9.0.1+)，64位版本
+- CUDA >= 10.1
+- cuDNN >= 7.6
+- 飞浆AI STUDIO
+
+### 安装（飞浆AI STUDIO）
+首先在[AI STUDIO](https://aistudio.baidu.com)新建一个**PaddleDetection3.1.0**框架的项目，启动环境，进入终端：
+安装**PaddlePaddle**：
+```bash
+# CUDA10.2
+python -m pip install paddlepaddle-gpu==2.3.2 -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# CPU
+python -m pip install paddlepaddle==2.3.2 -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
+随后安装**PaddleDetection**：
+```
+# 克隆PaddleDetection仓库
+cd work  # 选择你的工作文件夹，这里我以/work为例
+git clone https://github.com/PaddlePaddle/PaddleDetection.git
+
+# 安装其他依赖
+cd PaddleDetection
+pip install -r requirements.txt
+
+# 编译安装paddledet
+python setup.py install
+```
+***请注意，如果安装PaddleDetection过程由于网络原因报错（大概率遇到），请使用以下命令代替：***
+```
+cd work
+# 替换克隆地址为gitee
+git clone https://gitee.com/paddlepaddle/PaddleDetection.git
+
+cd PaddleDetection
+# 替换pip install源为清华镜像
+pip install lapx -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# 先行安装motmetrics
+pip install motmetrics -i https://pypi.org/simple
+
+# 编译安装paddledet
+python setup.py install
+```
+安装完成后执行测试代码：
+```bash
+python ppdet/modeling/tests/test_architectures.py
+```
+若输出以下信息则测试通过：
+```
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 12.816s
+OK
+```
+### 数据集准备
+数据集来源有很多，可以选择到[roboflow](https://universe.roboflow.com/)上下载对应的格式（例如COCO）数据集，本例使用的数据集为https://universe.roboflow.com/part-iv-project/cow-dataset
+下载之后上传至[AI STUDIO](https://aistudio.baidu.com)的文件夹`/home/aistudio/work/PaddleDetection/dataset/coco`下并解压（如果选择COCO数据集的话）
+<img width="476" height="562" alt="image" src="https://github.com/user-attachments/assets/185f5f62-9921-4912-a6d8-f5ce3e8ce595" />
+当然，也可以选择将数据集先挂载在[AI STUDIO](https://aistudio.baidu.com)的`我的数据集`里，然后在项目中进行引用。
+
+
+### 训练
+修改`/home/aistudio/work/PaddleDetection/configs/datasets/coco_detection.yml`文件为以下内容：
+```
+metric: COCO
+num_classes: 80
+
+TrainDataset:
+  name: COCODataSet
+  image_dir: train
+  anno_path: train/_annotations.coco.json
+  dataset_dir: dataset/coco
+  data_fields: ['image', 'gt_bbox', 'gt_class', 'is_crowd']
+
+EvalDataset:
+  name: COCODataSet
+  image_dir: valid
+  anno_path: valid/_annotations.coco.json
+  dataset_dir: dataset/coco
+  allow_empty: true
+
+TestDataset:
+  name: ImageFolder
+  anno_path: test/_annotations.coco.json # also support txt (like VOC's label_list.txt)
+  dataset_dir: dataset/coco # if set, anno_path will be 'dataset_dir/anno_path'
+```
+修改`/home/aistudio/work/PaddleDetection/configs/ppyoloe/ppyoloe_plus_crn_s_80e_coco.yml`为以下内容：
+```
+_BASE_: [
+  '../datasets/coco_detection.yml',
+  '../runtime.yml',
+  './_base_/optimizer_80e.yml',
+  './_base_/ppyoloe_plus_crn.yml',
+  './_base_/ppyoloe_plus_reader.yml',
+]
+
+log_iter: 100
+snapshot_epoch: 5
+weights: output/best_model
+
+pretrain_weights: https://bj.bcebos.com/v1/paddledet/models/pretrained/ppyoloe_crn_s_obj365_pretrained.pdparams
+depth_mult: 0.33
+width_mult: 0.50
+```
+执行命令以启动训练(单卡)：
+```
+export CUDA_VISIBLE_DEVICES=0
+python -m paddle.distributed.launch --gpus 0 tools/train.py -c configs/ppyoloe/ppyoloe_plus_crn_s_80e_coco.yml --eval
+```
+训练完成后结果输出在`output`文件夹：
+```
+output/
+ └── [你的配置名]/
+     ├── model.pdparams         <-- 模型参数
+     ├── model.pdopt            <-- 优化器状态（可选）
+     ├── model.pdmodel          <-- 模型结构（可选）
+     └── best_model/            <-- 如果有保存最佳模型
+         ├── model.pdparams     <-- 最优模型参数
+
+```
+<img width="466" height="217" alt="image" src="https://github.com/user-attachments/assets/9381489e-b9c3-4418-aaec-888ff978e406" />
+
+### 快速推理
+使用刚刚训练的模型进行推理：
+```
+# 在GPU上预测一张图片
+export CUDA_VISIBLE_DEVICES=0
+# --infer_img=demo/0.jpg只是个例子，它可以是任何正确的图片文件地址，请自行修改
+python tools/infer.py -c configs/ppyoloe/ppyoloe_plus_crn_s_80e_coco.yml -o use_gpu=true weights=output/best_model/model.pdparams --infer_img=demo/0.jpg
+```
+输出的推理结果仍在`output`文件夹，里面的同名文件`0.jpg`便是推理结果。
 
 
 ## 📸 硬件设计
